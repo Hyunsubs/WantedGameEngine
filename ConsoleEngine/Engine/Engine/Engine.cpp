@@ -122,17 +122,11 @@ void Engine::ProcessInput()
 
 void Engine::Update(float deltaTime)
 {
-	//  esc 키로 게임 종료
-	if (GetKeyDown(VK_ESCAPE))
-		QuitGame();
-
 	// 레벨 Update
 	if (mainLevel != nullptr)
 	{
 		mainLevel->Update(deltaTime);
 	}
-
-	cout << "DeltaTime: " << deltaTime << ", " << (1.f / deltaTime) << "\n";
 }
 
 void Engine::Draw()
