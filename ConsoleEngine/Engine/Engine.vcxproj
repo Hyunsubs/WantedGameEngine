@@ -134,7 +134,8 @@
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Includes\ /e /y</Command>
+      <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Includes\ /e /y
+xcopy $(ProjectDir)\*.h $(SolutionDir)..\EngineDemo\Includes\ /e /y</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(OutDir)\*.dll $(SolutionDir)..\EngineDemo\Lib\ /e /y
@@ -165,7 +166,8 @@ xcopy $(OutDir)\*.lib $(SolutionDir)\Lib\ /e /y</Command>
       <AdditionalDependencies>winmm.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Includes\ /e /y</Command>
+      <Command>xcopy $(ProjectDir)\*.h $(SolutionDir)\Includes\ /e /y
+xcopy $(ProjectDir)\*.h $(SolutionDir)..\EngineDemo\Includes\ /e /y</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>xcopy $(OutDir)\*.dll $(SolutionDir)..\EngineDemo\Lib\ /e /y

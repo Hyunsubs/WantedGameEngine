@@ -13,7 +13,7 @@ Actor::~Actor()
 
 void Actor::Update(float deltaTime)
 {
-
+	
 }
 
 void Actor::Draw()

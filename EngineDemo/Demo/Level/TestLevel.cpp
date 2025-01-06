@@ -1,6 +1,7 @@
+#include "PreCompiledHeader/PreCompiledHeader.h"
 #include "TestLevel.h"
 #include "Engine/Engine.h"
-#include <windows.h>
+#include "Core.h"
 
 TestLevel::TestLevel()
 {
