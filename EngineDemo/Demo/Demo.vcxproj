@@ -120,6 +120,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Lib\;</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy $(SolutionDir)\Lib\Engine.dll $(OutDir)\ /y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -139,6 +142,9 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Lib\;</AdditionalLibraryDirectories>
       <AdditionalDependencies>Engine.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>xcopy $(SolutionDir)\Lib\Engine.dll $(OutDir)\ /y</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Game\Game.cpp" />
