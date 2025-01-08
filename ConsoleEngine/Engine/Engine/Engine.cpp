@@ -1,7 +1,6 @@
 #include "PreCompiledHeader.h"
 #include "Engine.h"
 #include "../Level/Level.h"
-
 using namespace std;
 
 // 스태틱 변수 초기화
@@ -14,6 +13,15 @@ Engine::Engine()
 {
 	// 싱글톤 객체 설정
 	instance = this;
+
+	// 기본 타겟 프레임 속도 설정
+	SetTargetFrameRate(60.f);
+
+	CONSOLE_CURSOR_INFO cursorInfo = { 0, };
+	cursorInfo.bVisible = 0; // 커서를 보일지 말지 결정(0이면 안보임, 0제외 숫자 값이면 보임)
+	cursorInfo.dwSize = 1; // 커서의 크기를 결정 (1~100 사이만 가능)
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
+
 }
 
 Engine::~Engine()
@@ -40,13 +48,6 @@ void Engine::Run()
 	int64_t currentTime = time.QuadPart;
 	int64_t previousTime = 0;
 
-	// 프레임 제한
-	float targetFrameRate = 144.f;
-
-	// 한 프레임 시간 계산
-	float targetOneFrameTime = 1.f / targetFrameRate;
-
-
 	// Game-Loop
 	while (!quit)
 	{
@@ -58,7 +59,7 @@ void Engine::Run()
 		// 프로그램 틱이 돌때 소모되는 주파수 / 전체 주파수(초당 돌수 있는 최대값) = 1프레임당 소모되는 시간
 		float deltaTime = static_cast<float>(currentTime - previousTime) / static_cast<float>(frequency.QuadPart);
 		
-
+		// 프레임 확인
 		// 지정한 프레임보다 델타 타임이 작으면(실행속도가 빠르면) update draw를 실행하지 않음
 		if (deltaTime >= targetOneFrameTime)
 		{
@@ -84,6 +85,18 @@ void Engine::LoadLevel(Level* newLevel)
 
 	// 메인 레벨 설정 (단일 레벨 기준)
 	mainLevel = newLevel;
+}
+
+void Engine::SetCursorPosition(const Vector2& position)
+{
+	SetCursorPosition(position.x, position.y);
+}
+
+void Engine::SetCursorPosition(int x, int y)
+{
+	static HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD coord = { static_cast<short>(x), static_cast<short>(y) };
+	SetConsoleCursorPosition(handle, coord);
 }
 
 bool Engine::GetKey(int key)

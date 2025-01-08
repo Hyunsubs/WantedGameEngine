@@ -1,7 +1,7 @@
 #pragma once
-
-#include "Core.h"
 #include "RTTI.h"
+#include "Math/Vector2.h"
+
 
 // 레벨의 기본 물체
 class ENGINE_API Actor : public RTTI
@@ -16,7 +16,19 @@ public:
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
+	// Setter
+	virtual void SetPosition(const Vector2& newPosition);
+	
+
+
+	// Getter
+	inline Vector2 Position() const { return position; }
+
+
 protected:
+	// 액터의 위치
+	Vector2 position;
+
 	// ID(Hash) / 이름 값 보통 엔진에선 검색을 빠르게 하기 위해 모든 actor들이 고유한 ID를 가지고 있음
 	
 

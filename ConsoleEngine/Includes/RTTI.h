@@ -1,5 +1,8 @@
 #pragma once
 
+// TODO : 임시 변수 주소 반환 경고 무시
+#pragma warning (disable : 4172)
+
 #include "Core.h"
 
 // 상속 관계에 있는 클래스 간의
