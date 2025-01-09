@@ -1,6 +1,7 @@
 #include "PreCompiledHeader.h"
 #include "Engine.h"
 #include "../Level/Level.h"
+#include "Actor/Actor.h"
 using namespace std;
 
 // 스태틱 변수 초기화
@@ -16,12 +17,6 @@ Engine::Engine()
 
 	// 기본 타겟 프레임 속도 설정
 	SetTargetFrameRate(60.f);
-
-	CONSOLE_CURSOR_INFO cursorInfo = { 0, };
-	cursorInfo.bVisible = 0; // 커서를 보일지 말지 결정(0이면 안보임, 0제외 숫자 값이면 보임)
-	cursorInfo.dwSize = 1; // 커서의 크기를 결정 (1~100 사이만 가능)
-	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
-
 }
 
 Engine::~Engine()
@@ -66,14 +61,27 @@ void Engine::Run()
 			// 입력 처리 (현재 키의 눌림 상태 확인)
 			ProcessInput();
 
-			Update(deltaTime);
-			Draw();
+			// 업데이트 가능한 상태에서만 프레임 업데이트 처리
+			if (shouldUpdate)
+			{
+				Update(deltaTime);
+				Draw();
+			}
 
 			// 키 상태 저장
 			SavePreviousKeyStates();
 
 			// 이전 프레임 시간 저장
 			previousTime = currentTime;
+
+			// 액터 정리 (삭제 요청된 액터들 정리)
+			if (mainLevel)
+			{
+				mainLevel->DestroyActor();
+			}
+
+			// 프레임 활성화
+			shouldUpdate = true;
 		}
 
 	}
@@ -85,6 +93,53 @@ void Engine::LoadLevel(Level* newLevel)
 
 	// 메인 레벨 설정 (단일 레벨 기준)
 	mainLevel = newLevel;
+}
+
+void Engine::AddActor(Actor* newActor)
+{
+	// 예외 처리
+	if (mainLevel == nullptr)
+		return;
+
+	shouldUpdate = false;
+	mainLevel->AddActor(newActor);
+}
+
+void Engine::DestroyActor(Actor* targetActor)
+{
+	// 예외 처리
+	if (mainLevel == nullptr)
+		return;
+
+	shouldUpdate = false;
+	targetActor->Destroy();
+}
+
+void Engine::SetCursorType(CursorType type)
+{
+	CONSOLE_CURSOR_INFO info = { };\
+
+	// 타입 별로 속성 구조체 값 설정
+	switch (type)
+	{
+	case CursorType::NoCursor:
+		info.dwSize = 1;
+		info.bVisible = FALSE;
+		break;
+	case CursorType::SolidCursor:
+		info.dwSize = 100;
+		info.bVisible = TRUE;
+		break;
+	case CursorType::NormalCursor:
+		info.dwSize = 20;
+		info.bVisible = TRUE;
+		break;
+	default: 
+		break;
+	}
+	info.bVisible = (int)type;
+	SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &info);
+
 }
 
 void Engine::SetCursorPosition(const Vector2& position)
@@ -142,8 +197,27 @@ void Engine::Update(float deltaTime)
 	}
 }
 
+void Engine::Clear()
+{
+	// 화면의 (0,0)으로 이동
+	SetCursorPosition(0, 0);
+	
+	// 화면 지우기
+	int height = 25;
+	for (int i = 0; i < height; i++)
+	{
+		Log("                              \n");
+	}
+
+	// 화면의 (0,0)으로 이동
+	SetCursorPosition(0, 0);
+}
+
 void Engine::Draw()
 {
+	// 화면 지우기
+	Clear();
+
 	// 레벨 DrawCall
 	if (mainLevel != nullptr)
 	{

@@ -13,6 +13,9 @@ public:
 
 	// 액터 추가 함수
 	void AddActor(Actor* newActor);
+	
+	// 삭제 요청이 된 액터를 정리하는 함수
+	void DestroyActor();
 
 	virtual void Update(float deltaTime);
 	virtual void Draw();

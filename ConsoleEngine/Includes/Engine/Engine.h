@@ -10,9 +10,19 @@ struct KeyState
 	bool wasKeyDown = false;
 };
 
+// 커서의 종류를 설정할 때 사용할 열거형
+enum class CursorType
+{
+	NoCursor,
+	SolidCursor,
+	NormalCursor,
+	End,
+};
+
 
 
 class Level;
+class Actor;
 // 엔진 클래스
 class ENGINE_API Engine
 {
@@ -25,10 +35,16 @@ public:
 
 	// 레벨 추가 함수
 	void LoadLevel(Level* newLevel);
+	
+	// 액터 추가 삭제 함수
+	void AddActor(Actor* newActor);
+	void DestroyActor(Actor* targetActor);
 
 	// 화면 좌표 관련 함수.
+	void SetCursorType(CursorType type);
 	void SetCursorPosition(const Vector2& position);
 	void SetCursorPosition(int x, int y);
+
 
 	// 타겟 프레임 속도 설정
 	inline void SetTargetFrameRate(float targetFrameRate)
@@ -52,6 +68,8 @@ public:
 protected:
 	void ProcessInput();			// 입력 처리
 	void Update(float deltaTime);	// Tick();
+
+	void Clear();					// 화면 지우기
 	void Draw();					// Render();
 
 	// 이전 프레임의 키 상태를 저장하는 함수
@@ -75,4 +93,7 @@ private:
 
 	// 메인 레벨 변수
 	Level* mainLevel;
+
+	// 프레임을 업데이트 해야 하는지 여부를 나타내는 변수
+	bool shouldUpdate = true;
 };
