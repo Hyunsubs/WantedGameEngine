@@ -10,6 +10,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Demo", "Demo\Demo.vcxproj",
 		{3710F541-2FED-4578-ADF8-60FF99E6EDC4} = {3710F541-2FED-4578-ADF8-60FF99E6EDC4}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TextScrollDemo", "TextScrollDemo\TextScrollDemo.vcxproj", "{53DFEE4F-605D-430D-B57A-9A4B21E016A0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{3710F541-2FED-4578-ADF8-60FF99E6EDC4} = {3710F541-2FED-4578-ADF8-60FF99E6EDC4}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +39,14 @@ Global
 		{AD5B179D-EE0E-48EC-94C9-1EB1B2367506}.Release|x64.Build.0 = Release|x64
 		{AD5B179D-EE0E-48EC-94C9-1EB1B2367506}.Release|x86.ActiveCfg = Release|Win32
 		{AD5B179D-EE0E-48EC-94C9-1EB1B2367506}.Release|x86.Build.0 = Release|Win32
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Debug|x64.ActiveCfg = Debug|x64
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Debug|x64.Build.0 = Debug|x64
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Debug|x86.ActiveCfg = Debug|Win32
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Debug|x86.Build.0 = Debug|Win32
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Release|x64.ActiveCfg = Release|x64
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Release|x64.Build.0 = Release|x64
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Release|x86.ActiveCfg = Release|Win32
+		{53DFEE4F-605D-430D-B57A-9A4B21E016A0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
