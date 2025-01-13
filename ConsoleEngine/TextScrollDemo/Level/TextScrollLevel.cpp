@@ -3,5 +3,5 @@
 
 TextScrollLevel::TextScrollLevel()
 {
-	AddActor(new TextScrollActor("Welcome th toe Console Game Engine class...."));
+	AddActor(new TextScrollActor("Welcome to the Console Game Engine class...."));
 }

@@ -10,6 +10,8 @@ TextScrollActor::TextScrollActor(const char* message)
 	string = new char[length + 1];
 	strcpy_s(string, length + 1, message);
 
+	drawText = new char[printWidth + 1];
+
 	// 커서 감추기
 	Engine::Get().SetCursorType(CursorType::NoCursor);
 }
@@ -18,6 +20,9 @@ TextScrollActor::~TextScrollActor()
 {
 	delete[] string;
 	string = nullptr;
+
+	delete[] drawText;
+	drawText = nullptr;
 }
 
 void TextScrollActor::Update(float deltaTime)
@@ -30,32 +35,48 @@ void TextScrollActor::Update(float deltaTime)
 
 	if (Engine::Get().GetKey(VK_RIGHT))
 	{
-		// 화면에 그릴 문자열의 시작 인덱스 업데이트
-		index = (index + 1) % length;
+		direction = Direction::Left;
+		shouldUpdate = true;
 	}
 
 	if (Engine::Get().GetKey(VK_LEFT))
 	{
-		index > 0 ? index = (index - 1) % length : index = 0;
+		direction = Direction::Right;
+		shouldUpdate = true;
 	}
 
+	// 방향키가 안눌렸는지 확인
+	if (!Engine::Get().GetKey(VK_LEFT) && !Engine::Get().GetKey(VK_RIGHT))
+	{
+		shouldUpdate = false;
+	}
 
+	if (shouldUpdate)
+	{
+		if (direction == Direction::Right)
+		{
+			index = (index + 1) % length;
+		}
+
+		else if (direction == Direction::Left)
+		{
+			index = (index - 1 + length) % length;
+		}
+	}
 }
 
 void TextScrollActor::Draw()
 {
-	// 임시 문자열 버퍼
-	char* temp = new char[printWidth + 1];
 	int tempIndex = index;
+	
 	for (int i = 0; i < printWidth; i++)
 	{
-		temp[i] = string[tempIndex];
+		drawText[i] = string[tempIndex];
 		tempIndex = (tempIndex + 1) % length;
 	}
 
-	temp[printWidth] = '\0';
-	Log(temp);
+	drawText[printWidth] = '\0';
+	Log(drawText);
 
-	delete[] temp;
 	Engine::Get().SetCursorPosition(0, 0);
 }

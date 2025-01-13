@@ -4,7 +4,7 @@
 #include "Actor/Actor.h"
 using namespace std;
 
-// ½ºÅÂÆ½ º¯¼ö ÃÊ±âÈ­
+// ìŠ¤íƒœí‹± ë³€ìˆ˜ ì´ˆê¸°í™”
 Engine* Engine::instance = nullptr;
 
 
@@ -12,10 +12,10 @@ Engine::Engine()
 	: quit(false)
 	, mainLevel(nullptr)
 {
-	// ½Ì±ÛÅæ °´Ã¼ ¼³Á¤
+	// ì‹±ê¸€í†¤ ê°ì²´ ì„¤ì •
 	instance = this;
 
-	// ±âº» Å¸°Ù ÇÁ·¹ÀÓ ¼Óµµ ¼³Á¤
+	// ê¸°ë³¸ íƒ€ê²Ÿ í”„ë ˆì„ ì†ë„ ì„¤ì •
 	SetTargetFrameRate(60.f);
 }
 
@@ -26,19 +26,19 @@ Engine::~Engine()
 
 void Engine::Run()
 {
-	// ½ÃÀÛ Å¸ÀÓ ½ºÅÆÇÁ ÀúÀå
+	// ì‹œì‘ íƒ€ì„ ìŠ¤íƒ¬í”„ ì €ì¥
 	//unsigned long currentTime = timeGetTime();
 	//unsigned long previousTime = 0;
 
-	// CPU ½Ã°è »ç¿ë
-	// °íÇØ»óµµ Ä«¿îÅÍ
-	// ¸ŞÀÎº¸µå ³»¿¡ Á¸ÀçÇÔ
+	// CPU ì‹œê³„ ì‚¬ìš©
+	// ê³ í•´ìƒë„ ì¹´ìš´í„°
+	// ë©”ì¸ë³´ë“œ ë‚´ì— ì¡´ì¬í•¨
 	LARGE_INTEGER frequency;
-	QueryPerformanceFrequency(&frequency); // CPU°¡ ÃÊ´ç ³¾¼ö ÀÖ´Â ÃÖ´ë ÁÖÆÄ¼ö
+	QueryPerformanceFrequency(&frequency); // CPUê°€ ì´ˆë‹¹ ë‚¼ìˆ˜ ìˆëŠ” ìµœëŒ€ ì£¼íŒŒìˆ˜
 	
-	// ½ÃÀÛ ½Ã°£ ¹× ÀÌÀü ½Ã°£À» À§ÇÑ º¯¼ö
+	// ì‹œì‘ ì‹œê°„ ë° ì´ì „ ì‹œê°„ì„ ìœ„í•œ ë³€ìˆ˜
 	LARGE_INTEGER time;
-	QueryPerformanceCounter(&time); // ÇÁ·Î±×·¥ÀÌ ½ÇÇàµÉ¶§ ÃøÁ¤µÇ´Â ÁÖÆÄ¼ö
+	QueryPerformanceCounter(&time); // í”„ë¡œê·¸ë¨ì´ ì‹¤í–‰ë ë•Œ ì¸¡ì •ë˜ëŠ” ì£¼íŒŒìˆ˜
 
 	int64_t currentTime = time.QuadPart;
 	int64_t previousTime = 0;
@@ -48,39 +48,40 @@ void Engine::Run()
 	{
 		QueryPerformanceCounter(&time);
 		currentTime = time.QuadPart;
-		// ÇÁ·¹ÀÓ ½Ã°£ °è»ê
+		// í”„ë ˆì„ ì‹œê°„ ê³„ì‚°
 		// 
-		// ½ÇÇà ¼ø°£ ÁÖÆÄ¼ö - ÀÌÀü ÁÖÆÄ¼ö = ÇÁ·Î±×·¥ Æ½ÀÌ µ¹¶§ ¼Ò¸ğµÇ´Â ÁÖÆÄ¼ö
-		// ÇÁ·Î±×·¥ Æ½ÀÌ µ¹¶§ ¼Ò¸ğµÇ´Â ÁÖÆÄ¼ö / ÀüÃ¼ ÁÖÆÄ¼ö(ÃÊ´ç µ¹¼ö ÀÖ´Â ÃÖ´ë°ª) = 1ÇÁ·¹ÀÓ´ç ¼Ò¸ğµÇ´Â ½Ã°£
+		// ì‹¤í–‰ ìˆœê°„ ì£¼íŒŒìˆ˜ - ì´ì „ ì£¼íŒŒìˆ˜ = í”„ë¡œê·¸ë¨ í‹±ì´ ëŒë•Œ ì†Œëª¨ë˜ëŠ” ì£¼íŒŒìˆ˜
+		// í”„ë¡œê·¸ë¨ í‹±ì´ ëŒë•Œ ì†Œëª¨ë˜ëŠ” ì£¼íŒŒìˆ˜ / ì „ì²´ ì£¼íŒŒìˆ˜(ì´ˆë‹¹ ëŒìˆ˜ ìˆëŠ” ìµœëŒ€ê°’) = 1í”„ë ˆì„ë‹¹ ì†Œëª¨ë˜ëŠ” ì‹œê°„
 		float deltaTime = static_cast<float>(currentTime - previousTime) / static_cast<float>(frequency.QuadPart);
 		
-		// ÇÁ·¹ÀÓ È®ÀÎ
-		// ÁöÁ¤ÇÑ ÇÁ·¹ÀÓº¸´Ù µ¨Å¸ Å¸ÀÓÀÌ ÀÛÀ¸¸é(½ÇÇà¼Óµµ°¡ ºü¸£¸é) update draw¸¦ ½ÇÇàÇÏÁö ¾ÊÀ½
+		// í”„ë ˆì„ í™•ì¸
+		// ì§€ì •í•œ í”„ë ˆì„ë³´ë‹¤ ë¸íƒ€ íƒ€ì„ì´ ì‘ìœ¼ë©´(ì‹¤í–‰ì†ë„ê°€ ë¹ ë¥´ë©´) update drawë¥¼ ì‹¤í–‰í•˜ì§€ ì•ŠìŒ
 		if (deltaTime >= targetOneFrameTime)
 		{
-			// ÀÔ·Â Ã³¸® (ÇöÀç Å°ÀÇ ´­¸² »óÅÂ È®ÀÎ)
+			// ì…ë ¥ ì²˜ë¦¬ (í˜„ì¬ í‚¤ì˜ ëˆŒë¦¼ ìƒíƒœ í™•ì¸)
 			ProcessInput();
 
-			// ¾÷µ¥ÀÌÆ® °¡´ÉÇÑ »óÅÂ¿¡¼­¸¸ ÇÁ·¹ÀÓ ¾÷µ¥ÀÌÆ® Ã³¸®
+			// ì—…ë°ì´íŠ¸ ê°€ëŠ¥í•œ ìƒíƒœì—ì„œë§Œ í”„ë ˆì„ ì—…ë°ì´íŠ¸ ì²˜ë¦¬
 			if (shouldUpdate)
 			{
 				Update(deltaTime);
 				Draw();
 			}
 
-			// Å° »óÅÂ ÀúÀå
+			// í‚¤ ìƒíƒœ ì €ì¥
 			SavePreviousKeyStates();
 
-			// ÀÌÀü ÇÁ·¹ÀÓ ½Ã°£ ÀúÀå
+			// ì´ì „ í”„ë ˆì„ ì‹œê°„ ì €ì¥
 			previousTime = currentTime;
 
-			// ¾×ÅÍ Á¤¸® (»èÁ¦ ¿äÃ»µÈ ¾×ÅÍµé Á¤¸®)
+			// ì•¡í„° ì •ë¦¬ (ì‚­ì œ ìš”ì²­ëœ ì•¡í„°ë“¤ ì •ë¦¬)
 			if (mainLevel)
 			{
-				mainLevel->DestroyActor();
+				//mainLevel->DestroyActor();
+				mainLevel->ProcessAddedAndDestroyedActor();
 			}
 
-			// ÇÁ·¹ÀÓ È°¼ºÈ­
+			// í”„ë ˆì„ í™œì„±í™”
 			shouldUpdate = true;
 		}
 
@@ -89,15 +90,15 @@ void Engine::Run()
 
 void Engine::LoadLevel(Level* newLevel)
 {
-	// ±âÁ¸ ·¹º§ÀÌ ÀÖ´Ù¸é »èÁ¦ ÈÄ ±³Ã¼
+	// ê¸°ì¡´ ë ˆë²¨ì´ ìˆë‹¤ë©´ ì‚­ì œ í›„ êµì²´
 
-	// ¸ŞÀÎ ·¹º§ ¼³Á¤ (´ÜÀÏ ·¹º§ ±âÁØ)
+	// ë©”ì¸ ë ˆë²¨ ì„¤ì • (ë‹¨ì¼ ë ˆë²¨ ê¸°ì¤€)
 	mainLevel = newLevel;
 }
 
 void Engine::AddActor(Actor* newActor)
 {
-	// ¿¹¿Ü Ã³¸®
+	// ì˜ˆì™¸ ì²˜ë¦¬
 	if (mainLevel == nullptr)
 		return;
 
@@ -107,7 +108,7 @@ void Engine::AddActor(Actor* newActor)
 
 void Engine::DestroyActor(Actor* targetActor)
 {
-	// ¿¹¿Ü Ã³¸®
+	// ì˜ˆì™¸ ì²˜ë¦¬
 	if (mainLevel == nullptr)
 		return;
 
@@ -119,7 +120,7 @@ void Engine::SetCursorType(CursorType type)
 {
 	CONSOLE_CURSOR_INFO info = { };\
 
-	// Å¸ÀÔ º°·Î ¼Ó¼º ±¸Á¶Ã¼ °ª ¼³Á¤
+	// íƒ€ì… ë³„ë¡œ ì†ì„± êµ¬ì¡°ì²´ ê°’ ì„¤ì •
 	switch (type)
 	{
 	case CursorType::NoCursor:
@@ -190,7 +191,7 @@ void Engine::ProcessInput()
 
 void Engine::Update(float deltaTime)
 {
-	// ·¹º§ Update
+	// ë ˆë²¨ Update
 	if (mainLevel != nullptr)
 	{
 		mainLevel->Update(deltaTime);
@@ -199,26 +200,26 @@ void Engine::Update(float deltaTime)
 
 void Engine::Clear()
 {
-	// È­¸éÀÇ (0,0)À¸·Î ÀÌµ¿
+	// í™”ë©´ì˜ (0,0)ìœ¼ë¡œ ì´ë™
 	SetCursorPosition(0, 0);
 	
-	// È­¸é Áö¿ì±â
+	// í™”ë©´ ì§€ìš°ê¸°
 	int height = 25;
 	for (int i = 0; i < height; i++)
 	{
 		Log("                              \n");
 	}
 
-	// È­¸éÀÇ (0,0)À¸·Î ÀÌµ¿
+	// í™”ë©´ì˜ (0,0)ìœ¼ë¡œ ì´ë™
 	SetCursorPosition(0, 0);
 }
 
 void Engine::Draw()
 {
-	// È­¸é Áö¿ì±â
+	// í™”ë©´ ì§€ìš°ê¸°
 	Clear();
 
-	// ·¹º§ DrawCall
+	// ë ˆë²¨ DrawCall
 	if (mainLevel != nullptr)
 	{
 		mainLevel->Draw();

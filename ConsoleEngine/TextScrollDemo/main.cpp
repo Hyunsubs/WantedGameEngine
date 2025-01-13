@@ -3,9 +3,9 @@
 #include "Level/TextScrollLevel.h"
 #include <crtdbg.h>
 
-// È­¸é Áö¿ì±â
-// List ÀÚ·á±¸Á¶¿¡ »èÁ¦ ÇÔ¼ö Ãß°¡
-// Actor/Level/Engine¿¡¼­ ¾×ÅÍ Á¦°ÅÇÏ´Â ÇÔ¼ö Ãß°¡
+// í™”ë©´ ì§€ìš°ê¸°
+// List ìë£Œêµ¬ì¡°ì— ì‚­ì œ í•¨ìˆ˜ ì¶”ê°€
+// Actor/Level/Engineì—ì„œ ì•¡í„° ì œê±°í•˜ëŠ” í•¨ìˆ˜ ì¶”ê°€
 
 
 int main()

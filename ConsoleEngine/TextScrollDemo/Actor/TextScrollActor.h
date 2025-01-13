@@ -4,6 +4,15 @@
 
 class TextScrollActor : public Actor
 {
+	// ì…ë ¥ ë°©í–¥ ì—´ê±°í˜• ì„ ì–¸
+	enum class Direction
+	{
+		None = -1,
+		Left = 0,
+		Right = 1,
+	};
+
+
 	RTTI_DECLARATIONS(TextScrollActor, Actor)
 
 public:
@@ -14,16 +23,23 @@ public:
 	virtual void Draw() override;
 
 private:
-	// È­¸é¿¡ º¸¿©ÁÙ ¹®ÀÚ¿­ °ª
+	// ë°©í–¥ ë³€ìˆ˜
+	Direction direction = Direction::None;
+
+	// ì—…ë°ì´íŠ¸ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜
+	bool shouldUpdate = false;
+
+	// í™”ë©´ì— ë³´ì—¬ì¤„ ë¬¸ìì—´ ê°’
 	char* string = nullptr;
 
-	// ¹®ÀÚ¿­ ±æÀÌ
+	// ë¬¸ìì—´ ê¸¸ì´
 	int length = 0;
 
-	// È­¸é¿¡ º¸¿©ÁÙ ¹®ÀÚ¿­ÀÇ ½ÃÀÛ ÀÎµ¦½º
+	// í™”ë©´ì— ë³´ì—¬ì¤„ ë¬¸ìì—´ì˜ ì‹œì‘ ì¸ë±ìŠ¤
 	int index = 0;
 
-	// È­¸é¿¡ º¸¿©ÁÙ ¹®ÀÚ ±æÀÌ
+	// í™”ë©´ì— ë³´ì—¬ì¤„ ë¬¸ì ê¸¸ì´
 	int printWidth = 20;
 	
+	char* drawText = nullptr;
 };

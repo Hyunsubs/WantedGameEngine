@@ -9,7 +9,7 @@ Level::Level()
 
 Level::~Level()
 {
-	// ¸Ş¸ğ¸® ÇØÁ¦
+	// ë©”ëª¨ë¦¬ í•´ì œ
 	for (Actor* actor : actors)
 	{
 		delete actor;
@@ -18,12 +18,14 @@ Level::~Level()
 
 void Level::AddActor(Actor* newActor)
 {
-	actors.PushBack(newActor);
+	// actors.PushBack(newActor);
+	addRequestedActor = newActor;
 }
 
-void Level::DestroyActor()
+
+void Level::ProcessAddedAndDestroyedActor()
 {
-	// ¾×ÅÍ ¼øÈ¸ ÈÄ »èÁ¦ ¿äÃ»µÈ ¾×ÅÍ¸¦ Ã³¸®
+	// ì•¡í„° ìˆœíšŒ í›„ ì‚­ì œ ìš”ì²­ëœ ì•¡í„°ë¥¼ ì²˜ë¦¬
 	for (int i = 0; i < actors.Size();)
 	{
 		if (actors[i]->isExpired)
@@ -35,14 +37,21 @@ void Level::DestroyActor()
 		}
 		i++;
 	}
+
+	// ì¶”ê°€ ìš”ì²­ëœ ì•¡í„° ì²˜ë¦¬
+	if (addRequestedActor)
+	{
+		actors.PushBack(addRequestedActor);
+		addRequestedActor = nullptr;
+	}
 }
 
 void Level::Update(float deltaTime)
 {
-	// ·¹º§¿¡ Æ÷ÇÔµÈ ¾×ÅÍ¸¦ ¼øÈ¸ÇÏ¸é¼­ Update ÇÔ¼ö È£Ãâ
+	// ë ˆë²¨ì— í¬í•¨ëœ ì•¡í„°ë¥¼ ìˆœíšŒí•˜ë©´ì„œ Update í•¨ìˆ˜ í˜¸ì¶œ
 	for (Actor* actor : actors)
 	{
-		// ¾×ÅÍ°¡ ºñÈ°¼ºÈ­ »óÅÂÀÌ°Å³ª, »èÁ¦ ¿äÃ»µÈ °æ¿ì °Ç³Ê¶Ù±â
+		// ì•¡í„°ê°€ ë¹„í™œì„±í™” ìƒíƒœì´ê±°ë‚˜, ì‚­ì œ ìš”ì²­ëœ ê²½ìš° ê±´ë„ˆë›°ê¸°
 		if (actor->isExpired && !actor->isActive)
 			continue;
 
@@ -52,10 +61,10 @@ void Level::Update(float deltaTime)
 
 void Level::Draw()
 {
-	// ·¹º§¿¡ Æ÷ÇÔµÈ ¾×ÅÍ¸¦ ¼øÈ¸ÇÏ¸é¼­ Draw ÇÔ¼ö È£Ãâ
+	// ë ˆë²¨ì— í¬í•¨ëœ ì•¡í„°ë¥¼ ìˆœíšŒí•˜ë©´ì„œ Draw í•¨ìˆ˜ í˜¸ì¶œ
 	for (Actor* actor : actors)
 	{
-		// ¾×ÅÍ°¡ ºñÈ°¼ºÈ­ »óÅÂÀÌ°Å³ª, »èÁ¦ ¿äÃ»µÈ °æ¿ì °Ç³Ê¶Ù±â
+		// ì•¡í„°ê°€ ë¹„í™œì„±í™” ìƒíƒœì´ê±°ë‚˜, ì‚­ì œ ìš”ì²­ëœ ê²½ìš° ê±´ë„ˆë›°ê¸°
 		if (actor->isExpired && !actor->isActive)
 			continue;
 
