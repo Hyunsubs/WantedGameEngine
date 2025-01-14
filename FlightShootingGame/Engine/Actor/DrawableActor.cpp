@@ -8,6 +8,9 @@ DrawableActor::DrawableActor(const char* image)
 	auto length = strlen(image) + 1;
 	this->image = new char[length];
 	strcpy_s(this->image, length, image);
+	
+	// 너비 설정
+	width = static_cast<int>(length - 1);
 }
 
 DrawableActor::~DrawableActor()
@@ -22,7 +25,7 @@ void DrawableActor::Draw()
 
 	Engine::Get().SetCursorPosition(position);
 
-
+	
 	Log(image);
 }
 

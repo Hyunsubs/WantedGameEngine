@@ -4,7 +4,7 @@
 
 class TestLevel : public Level
 {
-	// RTTI Àû¿ë
+	// RTTI ì ìš©
 	RTTI_DECLARATIONS(TestLevel, Level)
 
 public:
@@ -13,4 +13,6 @@ public:
 
 	virtual void Update(float deltaTime) override;
 
+private:
+	int max_mob = 5;
 };

@@ -2,26 +2,55 @@
 #include "Engine.h"
 #include "../Level/Level.h"
 #include "Actor/Actor.h"
+#include <time.h>
 using namespace std;
 
 // 스태틱 변수 초기화
 Engine* Engine::instance = nullptr;
 
+#define CONSOLE_WIDTH 40
+#define CONSOLE_HEIGHT 25
 
 Engine::Engine()
 	: quit(false)
 	, mainLevel(nullptr)
+	, screenSize(CONSOLE_WIDTH, CONSOLE_HEIGHT)
 {
+	// 랜덤 시드 설정
+	srand(static_cast<unsigned int>(time(nullptr)));
+
 	// 싱글톤 객체 설정
 	instance = this;
 
 	// 기본 타겟 프레임 속도 설정
 	SetTargetFrameRate(60.f);
+
+	// 화면 지울 때 사용할 버퍼 초기화.
+	// 1. 버퍼 크기 할당.
+	emptyStringBuffer = new char[(screenSize.x + 1) * screenSize.y + 1];
+
+	// 버퍼 덮어쓰기
+	memset(emptyStringBuffer, ' ', (screenSize.x + 1) * screenSize.y + 1);
+
+
+	// 2. 값 할당.
+	for (int y = 0; y < screenSize.y; ++y)
+	{
+		// 각 줄 끝에 개행 문자 추가.
+		emptyStringBuffer[(y * (screenSize.x + 1)) + screenSize.x] = '\n';
+	}
+
+	// 마지막에 널 문자 추가.
+	emptyStringBuffer[(screenSize.x + 1) * screenSize.y] = '\0';
+
+
 }
 
 Engine::~Engine()
 {
 	SafeDelete(mainLevel);
+	delete[] emptyStringBuffer;
+	emptyStringBuffer = nullptr;
 }
 
 void Engine::Run()
@@ -41,7 +70,7 @@ void Engine::Run()
 	QueryPerformanceCounter(&time); // 프로그램이 실행될때 측정되는 주파수
 
 	int64_t currentTime = time.QuadPart;
-	int64_t previousTime = 0;
+	int64_t previousTime = currentTime;
 
 	// Game-Loop
 	while (!quit)
@@ -203,12 +232,7 @@ void Engine::Clear()
 	// 화면의 (0,0)으로 이동
 	SetCursorPosition(0, 0);
 	
-	// 화면 지우기
-	int height = 50;
-	for (int i = 0; i < height; i++)
-	{
-		Log("                        \n");
-	}
+	cout << emptyStringBuffer;
 
 	// 화면의 (0,0)으로 이동
 	SetCursorPosition(0, 0);

@@ -3,7 +3,7 @@
 
 class TextScrollLevel : public Level
 {
-	RTTI_DECLARATIONS(TextScrollLevel, Level);
+	RTTI_DECLARATIONS(TextScrollLevel, Level)
 
 public:
 	TextScrollLevel();

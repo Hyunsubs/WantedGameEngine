@@ -10,4 +10,7 @@ public:
 	Player(const char* image);
 
 	virtual void Update(float deltaTime) override;
+
+private:
+	float shoot_time = 0.f;
 };
