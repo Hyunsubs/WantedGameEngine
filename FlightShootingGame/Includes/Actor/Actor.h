@@ -3,21 +3,21 @@
 #include "Math/Vector2.h"
 
 
-// ·¹º§ÀÇ ±âº» ¹°Ã¼
+// ë ˆë²¨ì˜ ê¸°ë³¸ ë¬¼ì²´
 class ENGINE_API Actor : public RTTI
 {
-	// RTTI ¼±¾ğ
+	// RTTI ì„ ì–¸
 	RTTI_DECLARATIONS(Actor, RTTI)
 
-	// Level Å¬·¡½º¸¦ friend·Î ¼±¾ğ
-	// private¿¡ Á¢±ÙÀÌ °¡´ÉÇÏµµ·Ï
+	// Level í´ë˜ìŠ¤ë¥¼ friendë¡œ ì„ ì–¸
+	// privateì— ì ‘ê·¼ì´ ê°€ëŠ¥í•˜ë„ë¡
 	friend class Level;
 
 public:
 	Actor();
 	virtual ~Actor();
 
-	// ·çÇÁ Ã³¸® ÇÔ¼ö
+	// ë£¨í”„ ì²˜ë¦¬ í•¨ìˆ˜
 	virtual void Update(float deltaTime);
 	virtual void Draw();
 
@@ -27,21 +27,21 @@ public:
 	// Getter
 	inline Vector2 Position() const { return position; }
 
-	inline bool IsActive() const { return isActive; }
+	inline bool IsActive() const { return isActive && !isExpired; }
 	inline void SetActive(bool active) { isActive = active; }
 	inline void Destroy() { isExpired = true; }
 
 protected:
-	// ¾×ÅÍÀÇ À§Ä¡
+	// ì•¡í„°ì˜ ìœ„ì¹˜
 	Vector2 position;
 
-	// ID(Hash) / ÀÌ¸§ °ª º¸Åë ¿£Áø¿¡¼± °Ë»öÀ» ºü¸£°Ô ÇÏ±â À§ÇØ ¸ğµç actorµéÀÌ °íÀ¯ÇÑ ID¸¦ °¡Áö°í ÀÖÀ½
+	// ID(Hash) / ì´ë¦„ ê°’ ë³´í†µ ì—”ì§„ì—ì„  ê²€ìƒ‰ì„ ë¹ ë¥´ê²Œ í•˜ê¸° ìœ„í•´ ëª¨ë“  actorë“¤ì´ ê³ ìœ í•œ IDë¥¼ ê°€ì§€ê³  ìˆìŒ
 	
 
-	// È°¼ºÈ­ »óÅÂÀÎÁö¸¦ ³ªÅ¸³»´Â º¯¼ö
+	// í™œì„±í™” ìƒíƒœì¸ì§€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜
 	bool isActive;
 
-	// ¾×ÅÍÀÇ Á¦°Å ¿äÃ»ÀÌ µÆ´ÂÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â º¯¼ö
+	// ì•¡í„°ì˜ ì œê±° ìš”ì²­ì´ ëëŠ”ì§€ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜
 	bool isExpired;
 
 };

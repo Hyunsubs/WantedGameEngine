@@ -12,6 +12,32 @@
 #include <stdlib.h>
 #include <crtdbg.h>
 #include <string>
+#include <windows.h>
+
+static HANDLE g_handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+
+// 색상 열거형
+enum class Color : unsigned short
+{
+	Red = FOREGROUND_RED,
+	Green = FOREGROUND_GREEN,
+	Blue = FOREGROUND_BLUE,
+	White = Red + Green + Blue,
+};
+
+inline HANDLE GetHandle()
+{
+	return g_handle;
+}
+
+inline void SetCmdColor(Color color)
+{
+	SetConsoleTextAttribute(
+		GetHandle(),
+		(int)color
+	);
+}
 
 // 메모리 삭제 함수.
 template<typename T>
@@ -29,7 +55,7 @@ template<typename... T>
 void Log(const char* format, T&&... args)
 {
 	char buffer[1024];
-	sprintf_s(buffer, 1024, format);
+	sprintf_s(buffer, 1024, format, args...);
 	std::cout << buffer;
 }
 
@@ -46,6 +72,12 @@ inline float RandomPercent(float min, float max)
 {
 	float random = (float)(rand() / (float)RAND_MAX);
 	return random * (max - min) + min;
+}
+
+// 메모리 누수 확인할 때 사용하는 함수.
+inline void CheckMemoryLeak()
+{
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 }
 
 // 디버깅 용도.
